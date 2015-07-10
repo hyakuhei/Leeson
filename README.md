@@ -31,7 +31,6 @@ if [ -z "${key}" ]; then
   fi
 fi
 echo "Moving on." >&2
-sleep 5
 echo -en $key
 ```
 
