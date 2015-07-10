@@ -25,3 +25,14 @@ CREATE TABLE mapping(
  uuid varchar(255) not null,
  keymat varchar(255) not null
 );
+
+For this example we have a host at IP address 10.1.1.1 this host has a single
+hard drive with a UUID of aa-bb-cc-dd-ee. The encryption key for this disk is
+"DEADBEEFCAFEBABE"
+
+The following SQLite3 commands will update the database with this information
+
+$sqlite3 brokerdb
+sqlite> INSERT INTO mapping VALUES ("10.1.1.1","aa-bb-cc-dd-ee", "DEADBEEFCAFEBABE");
+sqlite> .exit
+$
