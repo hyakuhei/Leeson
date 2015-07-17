@@ -2,22 +2,53 @@
 Key broker for FDE with off-system key storage
 
 # Leeson server
-First, setup the database:
+First, setup the database. Running the dbmodel.py script without any arguments
+will cause it to create a database schema and populate it with some test data
+with some servers and volume keys.
 ```
 cd PecanBroker/database
 python dbmodel.py
 ```
 
 Setup the key broker in developer mode
+--------------------------------------
 ```
 python ./setup.py develop
 ```
 
 Run the key broker
+------------------
 ```
 cd PecanBroker
 pecan serve config.py
 ```
+
+Registration Mode
+-----------------
+In registration mode the broker will insert keys into it's database when it receives a POST request with appropriate data:
+
+| field | value |
+| ----- | ----- |
+| addr  | The IP address of the server to add a volume key for. If this server is not known in the database it will be created |
+| uuid | The UUID of the volume |
+| keymat | The key used for cryptographic operations on said volume |
+| registrationkey | The key that enables registration API usage |
+
+To set registration mode the config.py file must be modified and the
+"registrationmode" configuration item be set to True. Note that you should also
+change the registrationkey configuration.
+
+```
+...
+app = {
+    ...
+    'registrationmode':True,
+    'registrationkey':'aabbccddeeff',
+    ...
+}
+...
+```
+
 
 # Leeson Client
 NOTE: There is a bug in Ubuntu startup scripts that mean we dont get our leeson

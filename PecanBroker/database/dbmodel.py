@@ -38,17 +38,15 @@ class AuditItem(Base):
     volume_id = Column(Integer, ForeignKey('volume.id'))
     audittype_id = Column(Integer, ForeignKey('audittype.id'))
 
+def printdb(session):
+    for server in session.query(Server):
+        print server
+        vols = session.query(Volume).filter(Volume.server_id == server.id)
+        for v in vols:
+            print v
+        print "\n"
+
 if __name__ == "__main__":
-    print "===Creating a database for key management==="
-    print """
-        Running this script directly will create a database schema
-        and populate it with some test information including a few servers
-        and assign multiple volumes to each server.
-
-        importing this module into applications will allow them to read the
-        database using sqlalchemy
-        """
-
     #TODO: Make databse location a configuration item
     engine = create_engine('sqlite:///pbroker.db')
     DBSession = sessionmaker()
@@ -56,6 +54,22 @@ if __name__ == "__main__":
     Base.metadata.create_all(engine)
 
     session = DBSession()
+
+    if len(sys.argv) > 1:
+        if sys.argv[1] == 'print':
+            printdb(session)
+            exit()
+    else:
+        print "===Creating a database for key management==="
+        print """
+            Running this script directly will create a database schema
+            and populate it with some test information including a few servers
+            and assign multiple volumes to each server.
+
+            importing this module into applications will allow them to read the
+            database using sqlalchemy
+            """
+
 
     vol1 = Volume(uuid='aa-bb-cc-dd-01', keymaterial='DEADBEEF')
     vol2 = Volume(uuid='aa-bb-cc-dd-02', keymaterial='CAFEBABE')
@@ -78,12 +92,16 @@ if __name__ == "__main__":
     session.add(s2)
     session.commit()
 
-    for ip in ['127.0.0.1', '127.0.0.2']:
-        server = session.query(Server).filter(Server.ip == ip).one()
-        print server
-        vols = session.query(Volume).filter(Volume.server_id == server.id)
-        for v in vols:
-            print v
-        print "\n"
+    # Append a new volume to an existing server
+    vol6 = Volume(uuid='aa-bb-cc-dd-06', keymaterial='KEYKEYKEY')
+    session.add(vol6)
+
+    server = session.query(Server).filter(Server.ip=='127.0.0.1').one()
+    server.volumes.append(vol6)
+
+    session.add(server)
+    session.commit()
+
+    printdb(session)
 
     session.close()

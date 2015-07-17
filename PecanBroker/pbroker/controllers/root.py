@@ -14,6 +14,50 @@ engine = create_engine(pecan.conf.database['engine'])
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+class RegistrationController(rest.RestController):
+    @pecan.expose(content_type="text/plain")
+    def post(self):
+        if not pecan.conf.app['registrationmode']:
+            logger.warning("Registration requested when not enabled.")
+            abort(404)
+
+        registrationkey = pecan.request.POST.get("registrationkey")
+        if registrationkey != pecan.conf.app['registrationkey']:
+            logger.warning("registrationkey not provided")
+            abort(404)
+
+        required = ['addr','uuid','keymat']
+        for req in required:
+            if req not in pecan.request.POST:
+                logger.error("Missing %s from POST data" % req)
+                abort(404)
+
+        # A host can register other server, so we get the addr from it's
+        # POST request rather than from it's source addr (this plays better
+        # with web proxies too).
+        _addr = pecan.request.POST.get("addr")
+        _uuid = pecan.request.POST.get("uuid")
+        _keymaterial = pecan.request.POST.get("keymat")
+
+        volume = Volume(uuid=_uuid, keymaterial=_keymaterial)
+        session.add(volume)
+
+        try:
+            server = session.query(Server).filter(Server.ip==_addr).one()
+            logger.debug("Found server with address %s" % _addr)
+        except NoResultFound, e:
+            server = Server(ip=_addr)
+            #session.add(server)
+            logger.debug("Created a server with address %s" % _addr)
+
+        server.volumes.append(volume)
+        session.add(server)
+
+        session.commit()
+        session.close()
+
+        return
+
 class KeyController(rest.RestController):
     @pecan.expose(content_type="text/plain")
     def get(self):
@@ -43,3 +87,4 @@ class KeyController(rest.RestController):
 
 class RootController(object):
     key = KeyController()
+    registration = RegistrationController()

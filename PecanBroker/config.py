@@ -11,8 +11,10 @@ app = {
     'static_root': '%(confdir)s/public',
     'template_path': '%(confdir)s/pbroker/templates',
     'debug': True,
+    'registrationmode':True,
+    'registrationkey':'aabbccddeeff',
     'errors': {
-        404: '/error/404',
+        #404: '/error/404',
         '__force_dict__': True
     }
 }
