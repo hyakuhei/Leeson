@@ -1,6 +1,18 @@
 # Leeson
 Key broker for FDE with off-system key storage
 
+# Leeson server
+First, setup the database:
+```
+cd PecanBroker/database
+python dbmodel.py
+```
+Run the key broker
+```
+cd PecanBroker
+pecan serve config.py
+```
+
 # Leeson Client
 NOTE: There is a bug in Ubuntu startup scripts that mean we dont get our leeson
 IP passed through properly :-( in the script given below you have to manually
