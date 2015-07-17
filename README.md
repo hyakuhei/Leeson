@@ -25,7 +25,8 @@ pecan serve config.py
 
 Registration Mode
 -----------------
-In registration mode the broker will insert keys into it's database when it receives a POST request with appropriate data:
+In registration mode the broker will insert keys into it's database when it
+receives a POST request with appropriate data:
 
 | field | value |
 | ----- | ----- |
@@ -36,7 +37,7 @@ In registration mode the broker will insert keys into it's database when it rece
 
 To set registration mode the config.py file must be modified and the
 "registrationmode" configuration item be set to True. Note that you should also
-change the registrationkey configuration.
+change the registrationkey configuration in config.py
 
 ```
 ...
