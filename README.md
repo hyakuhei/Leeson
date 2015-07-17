@@ -7,6 +7,12 @@ First, setup the database:
 cd PecanBroker/database
 python dbmodel.py
 ```
+
+Setup the key broker in developer mode
+```
+python ./setup.py develop
+```
+
 Run the key broker
 ```
 cd PecanBroker
