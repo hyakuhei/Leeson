@@ -140,3 +140,20 @@ added correctly in the new one.
 
 Reboot and enjoy. If Leeson server is not found then you will be prompted to
 enter the unlock manually.
+
+#Next Steps
+TPM Support
+-----------
+There are a number of smart things that we might be able to do with a TPM to
+enhance the level of assurance we can have that a host is who it claims to be.
+One interesting prospect is to use the TPM to provide some system measurements or
+attestation to Leeson to guarantee the identity of the host generating the
+originating request.
+Project Deo
+-----------
+We recently became aware of 'deo' a RedHat effort that similarly binds crypto to
+the network but has some interesting enhancements based on Elgamal encryption methods
+We intend to reach out and research this further in the near future to work out
+how/if we can/should contribute to this project, combine projects etc.
+* https://blog-ftweedal.rhcloud.com/2015/09/automatic-decryption-of-tls-private-keys-with-deo/
+* http://www.snia.org/sites/default/files/SDC15_presentations/security/NathanielMcCallum_Network_Bound_Encryption.pdf
