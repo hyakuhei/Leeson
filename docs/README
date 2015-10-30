@@ -1,4 +1,8 @@
-Various docs will live here.
+# Leeson
+This area contains various documentation artifacts, the main documentation
+currently is still the main README for the project
 
-Text files with "-wsd" in the title should be rendered with websequencediagrams.com
-
+Sequence diagrams
+-----------------
+To scratch out ideas we typically use http://websequencediagrams.com these let
+us build quick models for software projects. Thanks WSD you guys are awesome.
