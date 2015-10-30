@@ -1,0 +1,19 @@
+title Leeson TPM workflow
+
+alt Cleanroom-Registration(No shipped EK)
+ PCA-->PCA:I'm a thing\nI live in the installer
+ Installer->Server:PXE-Boot
+ Server-->TPM:Reset
+ Server-->TPM:Generate EK, ECSR
+ Server->PCA: Please sign ECSR
+ PCA-->PCA: Validate & Sign ECSR
+ PCA->Server: EC
+ Server-->TPM: Store EC
+else Registration(Manufacturer EK)
+ Server-->TPM: Generate AIC-CSR
+ TPM-->Server: AIC-CSR
+ Server-->PCA: Please sign AIC-CSR (EC)
+ PCA-->PCA: Sign AIC-CSR
+ PCA->Server: AIC
+ Server->TPM: Store AIC
+end
