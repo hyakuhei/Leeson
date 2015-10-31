@@ -10,4 +10,5 @@ else Retreival
  DB->Leeson: EC, key
  Leeson-->Leeson: Extract RSA PUBkey from EC\nEncrypt key with RSA PUBkey
  Leeson->Server: Encrypted key
+ Leeson-->Leeson: Decrypt key using RSA private key
 end
