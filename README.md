@@ -1,6 +1,14 @@
 # Leeson
 Key broker for FDE with off-system key storage
 
+# Development Note
+This software is a proof of concept for a method to simply bind cryptographic
+key material to the local network.
+
+To understand what we are considering for the future development of Anchor,
+which authentication factors we are looking to add and how the TPM might be
+used please view ![the documentation](https://github.com/hyakuhei/Leeson/tree/master/docs)
+
 # Leeson server
 First, setup the database. Running the dbmodel.py script without any arguments
 will cause it to create a database schema and populate it with some test data
