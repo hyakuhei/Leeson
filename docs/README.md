@@ -13,6 +13,7 @@ An interesting alternative to local wrapping might be remote wrapping. In this
 model a server would transmit a public key to Leeson along with the request for
 a key. Leeson would encrypt the requested volume encryption key with the
 provided public key.
+
 ![Remote PubKey Wrapping](https://raw.githubusercontent.com/hyakuhei/Leeson/master/docs/cert_wrapping.png)
 
 # TPM usage
