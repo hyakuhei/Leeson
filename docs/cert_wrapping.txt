@@ -1,0 +1,13 @@
+title Leeson Simple Certificate Wrapping
+
+alt Registration
+ Server->Leeson:Register\nX509 Cert\nUUID:4444-xxxx\nUUID:2222-xxxx
+ Leeson-->Leeson: Validate Certificate\nChecking only signing validity
+ Leeson->DB:Persist EC->UUID mapping
+else Retreival
+ Server->Leeson:Get UUID:4444-xxxx
+ Leeson->DB: Retreive EC and key for UUID 4444-xxxx
+ DB->Leeson: EC, key
+ Leeson-->Leeson: Extract RSA PUBkey from EC\nEncrypt key with RSA PUBkey
+ Leeson->Server: Encrypted key
+end
