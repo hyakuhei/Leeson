@@ -60,7 +60,7 @@ app = {
 
 
 # Leeson Client
-NOTE: There is a bug in Ubuntu startup scripts that mean we dont get our leeson
+NOTE: There is a bug in Ubuntu startup scripts that mean we don't get our leeson
 IP passed through properly :-( in the script given below you have to manually
 set the `leeson` variable to the server IP.
 
@@ -123,7 +123,7 @@ sda5_crypt UUID=ef29ed41-ad41-4a6b-b8f3-aa8474af8cc2 none luks,discard,keyscript
 ```
 
 Finally, setup the initial parameters to pass through to the various bits in our
-initrd. To do this, edit `/etc/defualt/grub` and add to the
+initrd. To do this, edit `/etc/default/grub` and add to the
 `GRUB_CMDLINE_LINUX_DEFAULT` line as follows:
 
 ```
@@ -149,6 +149,22 @@ added correctly in the new one.
 Reboot and enjoy. If Leeson server is not found then you will be prompted to
 enter the unlock manually.
 
+Registration
+------------
+The previous steps showed that unlock was attempted, but failed due to lack of
+registration.  This step shares with the Leeson server the client details via a
+HTTP POST registration method.
+
+For these example values:
+CLIENTADDRESS=client-ip # IP address of the client (must be static)
+UUID=442a1fc7-e0eb-4909-b087-8e72b02e567f # UUID of disk sda1
+KEYMAT=?? # Set at install time, LUKS passphrase used in installer
+REGISTRATIONKEY="aabbccddeeff" # set in config.py at the start
+LEESONSERVER="http://server-ip:8080"
+
+Using cURL to perform a registration:
+$ curl --data "addr=${CLIENTADDRESS}6&uuid=${UUID}&keymat=${PASSPHRASE}&registrationkey=${REGISTRATIONKEY}" ${LEESONSEVER}/registration
+
 #Next Steps
 TPM Support
 -----------
@@ -157,6 +173,7 @@ enhance the level of assurance we can have that a host is who it claims to be.
 One interesting prospect is to use the TPM to provide some system measurements or
 attestation to Leeson to guarantee the identity of the host generating the
 originating request.
+
 Project Deo
 -----------
 We recently became aware of 'deo' a RedHat effort that similarly binds crypto to
